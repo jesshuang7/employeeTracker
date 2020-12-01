@@ -68,6 +68,8 @@ function start() {
     });
 }
 
+// Add Department
+
 function addDepartments() {
   inquirer
     .prompt({
@@ -95,9 +97,26 @@ function addDepartments() {
       );
     });
 }
+
+// Add Roles
+
 function addRoles() {
+  let query = "SELECT * FROM department";
+  connection.query(query, function(err, result){
+    if (err) throw err;
+    // console.table(result);
+    
+    let allDepartments = [];
+    for (let i=0; i < result.length; i++) {
+      let eachDepartment = result[i].name;
+      allDepartments.push(eachDepartment);
+    }
+    // console.log(allDepartments);
+  
+
   inquirer
-    .prompt({
+    .prompt([
+      {
       name: "title",
       type: "input",
       message: "Which role would you like to add?",
@@ -123,16 +142,25 @@ function addRoles() {
         name: "department_id",
         type: "list",
         message: "Please choose the role's department",
-        choices: department_id
+        choices: [...allDepartments]
     }
-    )
+  ])
     .then(function (answer) {
+      // console.log(answer);
+
+      let department_id = "";
+      for (i = 0; i < result.length; i++) {
+        if (answer.department_id === result[i].name) {
+          department_id = result[i].id;
+        }
+      }
+
       var query = connection.query(
         "INSERT INTO role SET ?",
         {
           title: answer.title,
           salary: answer.salary,
-          department_id: answer.department_id,
+          department_id: department_id,
         },
         function (err, res) {
           if (err) throw err;
@@ -141,4 +169,6 @@ function addRoles() {
         }
       );
     });
+  })
 }
+
