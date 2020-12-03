@@ -20,7 +20,7 @@ Explore the [Project Page](https://github.com/jesshuang7/employeeTracker)
 The focus of this project was to create an interface that make it easy for non-developers to view and manage a company's employees using node, inquirer, and MySQL.
 
 
-![Project Gif](public/assets/employeeTracker.gif)
+![Project Gif](Assets/employeeTracker.gif)
 
 ### User Story
 
